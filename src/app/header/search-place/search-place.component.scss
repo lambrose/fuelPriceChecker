@@ -1,0 +1,26 @@
+.container {
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.search-form {
+    width: 300px;
+    justify-content: center;
+}
+
+.search-input {
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 2px;
+   }
+
+:host ::ng-deep .mat-form-field-prefix .mat-icon {
+    font-size: 125%;
+}
+
+:host ::ng-deep .mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-suffix .mat-icon-button .mat-icon {
+    font-size: 100%;
+}
