@@ -1,50 +1,66 @@
-import { Component, OnInit } from '@angular/core';
-import { Loader } from '@googlemaps/js-api-loader';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { GoogleMap } from '@angular/google-maps';
+import { Subscription } from 'rxjs';
+import { ISearchResponse } from 'src/app/shared/interfaces/search-response.interface';
+import { LocationService } from 'src/app/shared/services/location.service';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
 })
-export class MapComponent implements OnInit {
-  title = 'google-maps';
-  private map: google.maps.Map;
+export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
+  // @ViewChild(GoogleMap)
+  // public map!: GoogleMap;
 
-  constructor() {}
+  zoom = 12;
+  center!: google.maps.LatLngLiteral;
+  options: google.maps.MapOptions = {
+    zoomControl: true,
+    scrollwheel: false,
+    disableDefaultUI: true,
+    fullscreenControl: true,
+    disableDoubleClickZoom: true,
+    // mapTypeId: 'hybrid',
+    // maxZoom:this.maxZoom,
+    // minZoom:this.minZoom,
+  };
+  subscription!: Subscription;
 
-  ngOnInit(): void {
-    this.initMap();
+  constructor(private locationService: LocationService) {}
+
+  ngOnInit() {
+    this.getUserCurrentLocation();
   }
 
-  initMap(): void {
-    const loader = new Loader({
-      apiKey: '',
+  ngAfterViewInit(): void {
+    this.subscription = this.locationService.changedSearchLocation$.subscribe(
+      (location: ISearchResponse) => {
+        // const place = location.address;
+        this.center = {
+          lat: location.coordinate.lat,
+          lng: location.coordinate.lng,
+        };
+      }
+    );
+  }
+
+  getUserCurrentLocation() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.center = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
     });
+  }
 
-    const location = {
-      lat: 53.347836850403354,
-      lng: -6.29168534213298,
-    };
-
-    const mapOptions = {
-      center: location,
-      zoom: 12,
-    };
-
-    loader
-      .load()
-      .then((google) => {
-        this.map = new google.maps.Map(
-          document.getElementById('map') as HTMLElement,
-          mapOptions
-        );
-        new google.maps.Marker({
-          position: location,
-          map: this.map,
-        });
-      })
-      .catch((e) => {
-        console.log('error......');
-      });
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

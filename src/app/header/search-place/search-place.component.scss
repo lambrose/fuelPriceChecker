@@ -9,9 +9,12 @@
 }
 
 .search-input {
+    align-self: center;
     margin-left: 10px;
     font-size: 20px;
-}
+    font-weight: 400;
+    color: #212529;
+  }
 
 :host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
     padding: 2px;

@@ -1,19 +1,63 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  NgZone,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ISearchResponse } from '../interfaces/search-response.interface';
+import { NearbySearchService } from 'src/app/shared/services/nearby-search.service';
+import { ISearchResponse } from '../../shared/interfaces/search-response.interface';
+import { LocationService } from '../../shared/services/location.service';
 
 @Component({
   selector: 'app-search-place',
   templateUrl: './search-place.component.html',
   styleUrls: ['./search-place.component.scss'],
 })
-export class SearchPlaceComponent implements OnInit {
-  public searchForm: FormGroup;
+export class SearchPlaceComponent implements OnInit, AfterViewInit {
+  public searchForm!: FormGroup;
+  @ViewChild('searchInput')
+  public searchElementRef!: ElementRef;
 
-  constructor() {}
+  constructor(
+    private ngZone: NgZone,
+    private locationService: LocationService,
+    private nearbySearchService: NearbySearchService
+  ) {}
 
   ngOnInit(): void {
     this.initSearchForm();
+  }
+
+  ngAfterViewInit(): void {
+    let autocomplete = new google.maps.places.Autocomplete(
+      this.searchElementRef.nativeElement
+    );
+
+    // gas_station
+    autocomplete.setTypes(['locality', 'country']);
+
+    autocomplete.addListener('place_changed', () => {
+      this.ngZone.run(() => {
+        let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+        if (place.geometry === undefined || place.geometry === null) {
+          return;
+        }
+
+        console.log({ place }, place.geometry.location?.lat());
+        const location: ISearchResponse = {
+          address: 'xxxx',
+          coordinate: {
+            lat: place.geometry.location?.lat(),
+            lng: place.geometry.location?.lng(),
+          },
+        };
+        this.getNearbySearch();
+        this.locationService.setLocation(location);
+      });
+    });
   }
 
   initSearchForm(): void {
@@ -22,18 +66,13 @@ export class SearchPlaceComponent implements OnInit {
     });
   }
 
-  handleAddressChange(address: any) {
-    console.log(address);
-    const location = {
-      address: address.formatted_address,
-      latitude: address.geometry.location.lat(),
-      longitude: address.geometry.location.lng(),
-    };
-
-    console.log(location);
-  }
-
   onClear(): void {
     this.searchForm.reset();
+  }
+
+  getNearbySearch() {
+    this.nearbySearchService.getStations().subscribe((response: any) => {
+      console.log(response);
+    });
   }
 }

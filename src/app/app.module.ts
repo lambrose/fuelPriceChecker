@@ -15,9 +15,10 @@ import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { MapComponent } from './home/map/map.component';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { SearchPlaceComponent } from './header/search-place/search-place.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { HttpClientModule } from '@angular/common/http';
 
 const MatModules = [
   MatButtonModule,
@@ -44,7 +45,8 @@ const MatModules = [
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    GooglePlaceModule,
+    HttpClientModule,
+    GoogleMapsModule,
     MatModules,
   ],
   providers: [],

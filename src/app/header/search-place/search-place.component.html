@@ -5,13 +5,13 @@
     [formGroup]="searchForm"
   >
     <mat-icon matPrefix>search</mat-icon>
+
     <input
       matInput
       type="text"
       class="search-input"
-      placeholder="Search location"
-      ngx-google-places-autocomplete
-      (onAddressChange)="handleAddressChange($event)"
+      (keydown.enter)="$event.preventDefault()"
+      placeholder="Search Location"
       formControlName="search"
       #searchInput
     />
