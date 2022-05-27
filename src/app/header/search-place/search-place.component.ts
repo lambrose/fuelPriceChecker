@@ -46,7 +46,11 @@ export class SearchPlaceComponent implements OnInit, AfterViewInit {
           return;
         }
 
-        console.log({ place }, place.geometry.location?.lat());
+        console.log(
+          { place },
+          place.geometry.location?.lat(),
+          place.geometry.location?.lng()
+        );
         const location: ISearchResponse = {
           address: 'xxxx',
           coordinate: {
@@ -54,7 +58,7 @@ export class SearchPlaceComponent implements OnInit, AfterViewInit {
             lng: place.geometry.location?.lng(),
           },
         };
-        this.getNearbySearch();
+        // this.getNearbySearch();
         this.locationService.setLocation(location);
       });
     });

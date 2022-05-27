@@ -19,6 +19,7 @@ import { SearchPlaceComponent } from './header/search-place/search-place.compone
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { HttpClientModule } from '@angular/common/http';
+import { StationComponent } from './station/station.component';
 
 const MatModules = [
   MatButtonModule,
@@ -38,6 +39,7 @@ const MatModules = [
     SidebarComponent,
     MapComponent,
     SearchPlaceComponent,
+    StationComponent,
   ],
   imports: [
     BrowserModule,

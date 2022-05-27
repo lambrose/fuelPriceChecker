@@ -5,7 +5,20 @@
     height="500px"
     width="100%"
     [zoom]="zoom"
-    [center]="center"
+    [center]="coords"
     [options]="options"
-  ></google-map>
+  >
+    <div id="map"></div>
+    <map-marker
+      #markerElem="mapMarker"
+      *ngFor="let marker of markers"
+      [position]="marker.position"
+      [label]="marker.label"
+      [title]="marker.title"
+      [options]="marker.options"
+      (mapClick)="openInfo(markerElem, marker.info)"
+    >
+    </map-marker>
+    <map-info-window>{{ infoContent }}</map-info-window>
+  </google-map>
 </div>

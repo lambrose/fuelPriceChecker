@@ -23,7 +23,7 @@ export class NearbySearchService {
       .set('radius', '1500')
       .set('type', 'restaurant')
       .set('keyword', 'cruise')
-      .set('key', 'api_key');
+      .set('key', 'AIzaSyBuqiIfDtaGfTmioES2pR6KZPoTIQtpfI4');
     return params;
   }
 
