@@ -17,12 +17,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private nearbySearchService: NearbySearchService) {}
 
   ngOnInit(): void {
-    this.nearbySearchService.changedNearbyStations$.subscribe(
-      (data: IStationPrice[]) => {
-        this.isStations = true;
-        this.stations = data;
-      }
-    );
+    this.subscription =
+      this.nearbySearchService.changedNearbyStations$.subscribe(
+        (data: IStationPrice[]) => {
+          this.isStations = true;
+          this.stations = data;
+        }
+      );
   }
 
   ngOnDestroy(): void {

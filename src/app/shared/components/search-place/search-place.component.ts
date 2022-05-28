@@ -7,8 +7,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ISearchResponse } from '../../shared/interfaces/search-response.interface';
-import { LocationService } from '../../shared/services/location.service';
+import { ISearchResponse } from '../../interfaces/search-response.interface';
+import { LocationService } from '../../services/location.service';
 
 @Component({
   selector: 'app-search-place',
