@@ -7,7 +7,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NearbySearchService } from 'src/app/shared/services/nearby-search.service';
 import { ISearchResponse } from '../../shared/interfaces/search-response.interface';
 import { LocationService } from '../../shared/services/location.service';
 
@@ -23,8 +22,7 @@ export class SearchPlaceComponent implements OnInit, AfterViewInit {
 
   constructor(
     private ngZone: NgZone,
-    private locationService: LocationService,
-    private nearbySearchService: NearbySearchService
+    private locationService: LocationService
   ) {}
 
   ngOnInit(): void {
@@ -46,19 +44,13 @@ export class SearchPlaceComponent implements OnInit, AfterViewInit {
           return;
         }
 
-        console.log(
-          { place },
-          place.geometry.location?.lat(),
-          place.geometry.location?.lng()
-        );
         const location: ISearchResponse = {
-          address: 'xxxx',
+          address: place.name,
           coordinate: {
             lat: place.geometry.location?.lat(),
             lng: place.geometry.location?.lng(),
           },
         };
-        // this.getNearbySearch();
         this.locationService.setLocation(location);
       });
     });
@@ -72,11 +64,5 @@ export class SearchPlaceComponent implements OnInit, AfterViewInit {
 
   onClear(): void {
     this.searchForm.reset();
-  }
-
-  getNearbySearch() {
-    this.nearbySearchService.getStations().subscribe((response: any) => {
-      console.log(response);
-    });
   }
 }

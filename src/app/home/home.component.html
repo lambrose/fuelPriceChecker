@@ -1,1 +1,7 @@
-<app-map></app-map>
+<div class="container">
+  <app-station-list
+    *ngIf="isStations"
+    [dataSource]="stations"
+  ></app-station-list>
+  <app-map></app-map>
+</div>

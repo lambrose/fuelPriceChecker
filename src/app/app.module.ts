@@ -10,16 +10,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
-import { MapComponent } from './home/map/map.component';
+import { MapComponent } from './home/components/map/map.component';
 import { SearchPlaceComponent } from './header/search-place/search-place.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { HttpClientModule } from '@angular/common/http';
 import { StationComponent } from './station/station.component';
+import { StationListComponent } from './home/components/station-list/station-list.component';
 
 const MatModules = [
   MatButtonModule,
@@ -28,6 +30,8 @@ const MatModules = [
   MatToolbarModule,
   MatCardModule,
   MatInputModule,
+  MatTableModule,
+  MatSortModule,
 ];
 
 @NgModule({
@@ -40,6 +44,7 @@ const MatModules = [
     MapComponent,
     SearchPlaceComponent,
     StationComponent,
+    StationListComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +52,6 @@ const MatModules = [
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
     GoogleMapsModule,
     MatModules,
   ],
