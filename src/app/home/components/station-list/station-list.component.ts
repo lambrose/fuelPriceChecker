@@ -8,7 +8,7 @@ import {
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { StationDataService } from '../../services/station-data.service';
+import { IStationPrice } from '../../interfaces/station-price.interface';
 
 @Component({
   selector: 'app-station-list',
@@ -16,19 +16,15 @@ import { StationDataService } from '../../services/station-data.service';
   styleUrls: ['./station-list.component.scss'],
 })
 export class StationListComponent implements OnInit, AfterViewInit {
-  displayedColumns!: string[];
-  @Input() dataSource!: any;
   @ViewChild(MatSort) sort!: MatSort;
+  @Input() stationData!: IStationPrice[];
+  @Input() columnData!: string[];
+  dataSource!: MatTableDataSource<IStationPrice>;
 
-  constructor(
-    private _liveAnnouncer: LiveAnnouncer,
-    private stationDataService: StationDataService
-  ) {}
+  constructor(private _liveAnnouncer: LiveAnnouncer) {}
 
   ngOnInit(): void {
-    const service = this.stationDataService;
-    this.displayedColumns = service.displayedColumns;
-    // this.dataSource = new MatTableDataSource(service.STATION_DATA);
+    this.dataSource = new MatTableDataSource(this.stationData);
   }
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;

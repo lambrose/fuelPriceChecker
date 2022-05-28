@@ -12,15 +12,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   isStations!: boolean;
   stations!: IStationPrice[];
   subscription!: Subscription;
+  columns: string[] = ['station', 'petrol', 'diesel'];
 
   constructor(private nearbySearchService: NearbySearchService) {}
 
   ngOnInit(): void {
-    // this.nearbySearchService.getStations();
-
     this.nearbySearchService.changedNearbyStations$.subscribe(
       (data: IStationPrice[]) => {
-        console.log(data);
         this.isStations = true;
         this.stations = data;
       }
