@@ -9,10 +9,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterModule } from '@angular/router';
-import { HeaderComponent } from './components/header/header.component';
-import { SearchPlaceComponent } from './components/search-place/search-place.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 const MatModules = [
   MatButtonModule,
@@ -26,15 +22,9 @@ const MatModules = [
 ];
 
 @NgModule({
-  declarations: [HeaderComponent, SidebarComponent, SearchPlaceComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatModules,
-  ],
-  exports: [HeaderComponent, SidebarComponent, MatModules, FormsModule],
+  declarations: [],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatModules],
+  exports: [MatModules, FormsModule, ReactiveFormsModule],
   providers: [],
 })
 export class SharedModule {}
