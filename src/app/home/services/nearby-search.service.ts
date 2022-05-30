@@ -41,6 +41,8 @@ export class NearbySearchService {
         this.addStation(result);
       }
       this._changedNearbyStations.next(this.stations);
+      this.markers = [];
+      this.stations = [];
       // this.map.setCenter(results[0].geometry!.location!);
     }
   };

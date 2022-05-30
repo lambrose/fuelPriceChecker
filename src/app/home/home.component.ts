@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { IStationPrice } from './interfaces/station-price.interface';
 import { NearbySearchService } from './services/nearby-search.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-home',
@@ -9,10 +10,9 @@ import { NearbySearchService } from './services/nearby-search.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  isStations!: boolean;
-  stations!: IStationPrice[];
-  subscription!: Subscription;
   columns: string[] = ['station', 'petrol', 'diesel'];
+  dataSource!: MatTableDataSource<IStationPrice>;
+  subscription!: Subscription;
 
   constructor(private nearbySearchService: NearbySearchService) {}
 
@@ -20,14 +20,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subscription =
       this.nearbySearchService.changedNearbyStations$.subscribe(
         (data: IStationPrice[]) => {
-          this.isStations = true;
-          this.stations = data;
+          this.dataSource = new MatTableDataSource(data);
         }
       );
   }
 
   ngOnDestroy(): void {
-    this.isStations = false;
     this.subscription.unsubscribe();
   }
 }

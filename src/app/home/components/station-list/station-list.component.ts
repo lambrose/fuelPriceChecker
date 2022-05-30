@@ -17,15 +17,13 @@ import { IStationPrice } from '../../interfaces/station-price.interface';
 })
 export class StationListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
-  @Input() stationData!: IStationPrice[];
+  @Input() dataSource!: MatTableDataSource<IStationPrice>;
   @Input() columnData!: string[];
-  dataSource!: MatTableDataSource<IStationPrice>;
 
   constructor(private _liveAnnouncer: LiveAnnouncer) {}
 
-  ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(this.stationData);
-  }
+  ngOnInit(): void {}
+
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
   }
