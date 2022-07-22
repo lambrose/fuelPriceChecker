@@ -1,3 +1,75 @@
 <div class="container">
-  <p>Station details</p>
+  <div class="msg-section">
+    <h1>Update Fuel Station Prices</h1>
+    <ul>
+      <li>Contribute</li>
+      <li>Help</li>
+      <li>Save money</li>
+    </ul>
+  </div>
+
+  <div class="form-section">
+    <form (ngSubmit)="onSubmit()" [formGroup]="stationForm">
+      <div class="station-form-field">
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Station Name</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="AppleGreen"
+            formControlName="station"
+          />
+          <mat-error>{{ getErrorMessage() }}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="station-form-field">
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Petrol</mat-label>
+          <input
+            matInput
+            type="number"
+            class="example-right-align"
+            placeholder="0"
+            formControlName="petrol"
+          />
+          <span matPrefix>$&nbsp;</span>
+        </mat-form-field>
+      </div>
+
+      <div class="station-form-field">
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Diesel</mat-label>
+          <input
+            matInput
+            type="number"
+            class="example-right-align"
+            placeholder="0"
+            formControlName="diesel"
+          />
+          <span matPrefix>$&nbsp;</span>
+        </mat-form-field>
+      </div>
+
+      <div class="station-form-field">
+        <button
+          mat-raised-button
+          type="submit"
+          color="primary"
+          class="submit-btn"
+          [disabled]="!stationForm.valid"
+        >
+          Save
+        </button>
+        <button
+          mat-raised-button
+          type="button"
+          color="warn"
+          (click)="onCancel()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

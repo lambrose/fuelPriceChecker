@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { IStationPrice } from '../interfaces/station-price.interface';
+import { IStationPrice } from '../../shared/interfaces/station-price.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -56,12 +56,12 @@ export class NearbySearchService {
 
     this.markers.push({
       position: place.geometry.location,
-      label: {
-        color: 'red',
-        text: place.name,
-      },
-      title: 'Marker title ' + (this.markers.length + 1),
-      info: 'Marker info ' + (this.markers.length + 1),
+      // label: {
+      //   color: 'red',
+      //   text: place.name,
+      // },
+      // title: 'Marker title ' + (this.markers.length + 1),
+      info: place.name,
       options: {
         animation: google.maps.Animation.BOUNCE,
       },

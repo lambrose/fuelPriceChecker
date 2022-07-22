@@ -8,7 +8,7 @@ import {
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { IStationPrice } from '../../interfaces/station-price.interface';
+import { IStationPrice } from '../../../shared/interfaces/station-price.interface';
 
 @Component({
   selector: 'app-station-list',

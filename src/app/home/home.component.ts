@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { IStationPrice } from './interfaces/station-price.interface';
+import { IStationPrice } from '../shared/interfaces/station-price.interface';
 import { NearbySearchService } from './services/nearby-search.service';
 import { MatTableDataSource } from '@angular/material/table';
 
