@@ -34,7 +34,6 @@ export class SearchPlaceComponent implements OnInit, AfterViewInit {
       this.searchElementRef.nativeElement
     );
 
-    // gas_station
     autocomplete.setTypes(['locality', 'country']);
 
     autocomplete.addListener('place_changed', () => {

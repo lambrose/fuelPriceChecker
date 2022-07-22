@@ -1,6 +1,9 @@
 <mat-toolbar>
   <mat-icon (click)="toggleSidebar()">menu</mat-icon>
-  <app-search-place></app-search-place>
+  <div class="search-input">
+    <app-search-place *ngIf="isHomeScreen()"></app-search-place>
+  </div>
+
   <!-- <span>Fuelprice</span> -->
   <!-- <div class="icons">
     <mat-icon>search</mat-icon>

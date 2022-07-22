@@ -10,6 +10,8 @@ export class NearbySearchService {
   private stations: IStationPrice[] = [];
   private _changedNearbyStations = new Subject<IStationPrice[]>();
   public changedNearbyStations$ = this._changedNearbyStations.asObservable();
+  private _changedMarkers = new Subject<any[]>();
+  public changedMarkers$ = this._changedMarkers.asObservable();
 
   constructor() {}
 
@@ -41,6 +43,8 @@ export class NearbySearchService {
         this.addStation(result);
       }
       this._changedNearbyStations.next(this.stations);
+      this._changedMarkers.next(this.markers);
+
       this.markers = [];
       this.stations = [];
       // this.map.setCenter(results[0].geometry!.location!);
@@ -70,9 +74,5 @@ export class NearbySearchService {
       petrol: +(1 + '.' + place.name.length),
       diesel: +(2 + '.' + place.name.length),
     });
-  }
-
-  getMarkers() {
-    return this.markers;
   }
 }

@@ -1,6 +1,9 @@
 .container {
     padding: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+.container_map {
+    padding: 10px;
 }

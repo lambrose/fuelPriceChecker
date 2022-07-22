@@ -5,8 +5,9 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
-import { Subscription } from 'rxjs';
+// import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { Observable, Subscription } from 'rxjs';
 import { ISearchResponse } from 'src/app/shared/interfaces/search-response.interface';
 import { LocationService } from 'src/app/shared/services/location.service';
 import { NearbySearchService } from '../../services/nearby-search.service';
@@ -19,7 +20,7 @@ import { NearbySearchService } from '../../services/nearby-search.service';
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MapInfoWindow, { static: false }) info!: MapInfoWindow;
   map!: google.maps.Map;
-  zoom = 12;
+  zoom = 14;
   coords!: google.maps.LatLngLiteral;
   options: google.maps.MapOptions = {
     zoomControl: true,
@@ -31,7 +32,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     // maxZoom:this.maxZoom,
     // minZoom:this.minZoom,
   };
-  markers: any = [];
+  markers: Observable<any[]> | undefined;
   infoContent = '';
   subscription!: Subscription;
 
@@ -61,7 +62,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           lng: location.coordinate.lng,
         };
         this.nearbySearchService.findStations(this.coords, this.map);
-        this.markers = this.nearbySearchService.getMarkers(); // might need to chnage
+        this.markers = this.nearbySearchService.changedMarkers$;
       }
     );
   }

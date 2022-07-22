@@ -1,4 +1,4 @@
-<div class="container">
+<div [ngClass]="dataSource ? 'container' : 'container_map'">
   <app-station-list
     *ngIf="dataSource"
     [dataSource]="dataSource"
