@@ -19,6 +19,7 @@ import { UpdatePriceService } from '../../../shared/services/update-price.servic
 })
 export class StationListComponent implements AfterViewInit, OnChanges {
   @ViewChild(MatSort) sort!: MatSort;
+  @Input() location!: string;
   @Input() dataSource!: MatTableDataSource<IStationPrice>;
   @Input() columnData!: string[];
 
@@ -27,6 +28,7 @@ export class StationListComponent implements AfterViewInit, OnChanges {
     private updatePriceService: UpdatePriceService,
     private router: Router
   ) {}
+
   ngOnChanges(): void {
     this.dataSource.sort = this.sort;
   }
@@ -44,7 +46,10 @@ export class StationListComponent implements AfterViewInit, OnChanges {
   }
 
   updatePrices(rowData: IStationPrice) {
-    this.updatePriceService.setUpdatePrice(rowData);
+    this.updatePriceService.setUpdatePrice({
+      location: this.location,
+      station: rowData,
+    });
     this.router.navigate(['/station']);
   }
 }

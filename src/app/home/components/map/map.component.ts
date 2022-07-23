@@ -1,27 +1,20 @@
-import {
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 // import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
-import { Observable, Subscription } from 'rxjs';
-import { ISearchResponse } from 'src/app/shared/interfaces/search-response.interface';
-import { LocationService } from 'src/app/shared/services/location.service';
-import { NearbySearchService } from '../../services/nearby-search.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
 })
-export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MapComponent implements OnInit {
   @ViewChild(MapInfoWindow, { static: false }) info!: MapInfoWindow;
-  map!: google.maps.Map;
+  @Input() map!: google.maps.Map;
+  @Input() coords!: google.maps.LatLngLiteral;
+  @Input() markers: Observable<any[]> | undefined;
+  infoContent = '';
   zoom = 14;
-  coords!: google.maps.LatLngLiteral;
   options: google.maps.MapOptions = {
     zoomControl: true,
     scrollwheel: false,
@@ -32,14 +25,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     // maxZoom:this.maxZoom,
     // minZoom:this.minZoom,
   };
-  markers: Observable<any[]> | undefined;
-  infoContent = '';
-  subscription!: Subscription;
 
-  constructor(
-    private locationService: LocationService,
-    private nearbySearchService: NearbySearchService
-  ) {}
+  constructor() {}
 
   ngOnInit() {
     this.getUserCurrentLocation();
@@ -54,25 +41,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  ngAfterViewInit(): void {
-    this.subscription = this.locationService.changedSearchLocation$.subscribe(
-      (location: ISearchResponse) => {
-        this.coords = {
-          lat: location.coordinate.lat,
-          lng: location.coordinate.lng,
-        };
-        this.nearbySearchService.findStations(this.coords, this.map);
-        this.markers = this.nearbySearchService.changedMarkers$;
-      }
-    );
-  }
-
   openInfo(marker: MapMarker, content: any) {
     this.infoContent = content;
     this.info.open(marker);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

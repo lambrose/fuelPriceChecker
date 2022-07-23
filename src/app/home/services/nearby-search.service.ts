@@ -71,8 +71,8 @@ export class NearbySearchService {
   addStation(place: google.maps.places.PlaceResult) {
     this.stations.push({
       station: place.name,
-      petrol: +(1 + '.' + place.name.length),
-      diesel: +(2 + '.' + place.name.length),
+      petrol: 0,
+      diesel: 0,
     });
   }
 }

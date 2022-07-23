@@ -12,6 +12,10 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ModalDialogComponent } from './component/modal-dialog/modal-dialog.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAnalyticsModule } from '@angular/fire/compat/analytics';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { environment } from 'src/environments/environment';
 
 const MatModules = [
   MatButtonModule,
@@ -32,6 +36,9 @@ const MatModules = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAnalyticsModule,
+    AngularFirestoreModule,
     MatModules,
   ],
   exports: [MatModules, FormsModule, ReactiveFormsModule, ModalDialogComponent],

@@ -1,5 +1,5 @@
 export interface ISearchResponse {
-  address?: string;
+  address: string;
   coordinate: ICoordinate;
 }
 

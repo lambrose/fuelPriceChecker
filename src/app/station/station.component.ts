@@ -4,9 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ModalDialogComponent } from '../shared/component/modal-dialog/modal-dialog.component';
-import { IStationPrice } from '../shared/interfaces/station-price.interface';
+import { IStation } from '../shared/interfaces/station-price.interface';
+import { FirebaseService } from '../shared/services/firebase.service';
 import { UpdatePriceService } from '../shared/services/update-price.service';
-import { FirebaseService } from './service/firebase.service';
+// import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-station',
@@ -17,6 +18,7 @@ export class StationComponent implements OnInit, OnDestroy {
   public stationForm!: FormGroup;
   subscription!: Subscription;
   @ViewChild('form') ngForm!: NgForm;
+  location!: string;
 
   constructor(
     private updatePriceService: UpdatePriceService,
@@ -40,8 +42,9 @@ export class StationComponent implements OnInit, OnDestroy {
 
   autoPopulateForm() {
     this.subscription = this.updatePriceService.updatePrice$.subscribe(
-      (data: IStationPrice) => {
-        this.stationForm.setValue(data);
+      (data: IStation) => {
+        this.location = data.location;
+        this.stationForm.setValue(data.station);
       }
     );
   }
@@ -57,16 +60,17 @@ export class StationComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.firebaseService.postData(this.stationForm.value).subscribe(() => {
-      this.dialog.open(ModalDialogComponent, {
-        data: {
-          title: 'Successful Submission',
-          content: 'Thank you for updating the fuel price.',
-        },
+    this.firebaseService
+      .create(this.location, this.stationForm.value)
+      .then(() => {
+        console.log(this.location);
+        this.dialog.open(ModalDialogComponent, {
+          data: {
+            title: 'Successful Submission',
+            content: 'Thank you for updating the fuel price.',
+          },
+        });
       });
-    });
-
-    // this.firebaseService.getData().subscribe((data: any) => console.log(data));
     this.onClear();
   }
 
@@ -75,6 +79,20 @@ export class StationComponent implements OnInit, OnDestroy {
   }
 
   onClear() {
+    // this.firebaseService
+    //   .getAll(this.location)
+    //   .pipe(
+    //     map((changes) =>
+    //       changes.map((c) => ({
+    //         id: c.payload.doc.id,
+    //         ...c.payload.doc.data(),
+    //       }))
+    //     )
+    //   )
+    //   .subscribe((data) => {
+    //     console.log(data);
+    //   });
+
     this.stationForm.reset();
     this.ngForm.resetForm();
   }
