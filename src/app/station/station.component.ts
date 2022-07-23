@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ModalDialogComponent } from '../shared/component/modal-dialog/modal-dialog.component';
 import { IStationPrice } from '../shared/interfaces/station-price.interface';
 import { UpdatePriceService } from '../shared/services/update-price.service';
 import { FirebaseService } from './service/firebase.service';
@@ -19,7 +21,8 @@ export class StationComponent implements OnInit, OnDestroy {
   constructor(
     private updatePriceService: UpdatePriceService,
     private firebaseService: FirebaseService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -54,9 +57,14 @@ export class StationComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.firebaseService
-      .postData(this.stationForm.value)
-      .subscribe((data: any) => console.log(data));
+    this.firebaseService.postData(this.stationForm.value).subscribe(() => {
+      this.dialog.open(ModalDialogComponent, {
+        data: {
+          title: 'Successful Submission',
+          content: 'Thank you for updating the fuel price.',
+        },
+      });
+    });
 
     // this.firebaseService.getData().subscribe((data: any) => console.log(data));
     this.onClear();

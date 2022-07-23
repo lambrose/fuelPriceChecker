@@ -10,6 +10,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ModalDialogComponent } from './component/modal-dialog/modal-dialog.component';
 
 const MatModules = [
   MatButtonModule,
@@ -20,10 +22,11 @@ const MatModules = [
   MatInputModule,
   MatTableModule,
   MatSortModule,
+  MatDialogModule,
 ];
 
 @NgModule({
-  declarations: [],
+  declarations: [ModalDialogComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -31,7 +34,7 @@ const MatModules = [
     HttpClientModule,
     MatModules,
   ],
-  exports: [MatModules, FormsModule, ReactiveFormsModule],
+  exports: [MatModules, FormsModule, ReactiveFormsModule, ModalDialogComponent],
   providers: [],
 })
 export class SharedModule {}
