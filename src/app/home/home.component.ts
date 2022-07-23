@@ -10,7 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  columns: string[] = ['station', 'petrol', 'diesel'];
+  columns: string[] = ['station', 'petrol', 'diesel', 'star'];
   dataSource!: MatTableDataSource<IStationPrice>;
   subscription!: Subscription;
 

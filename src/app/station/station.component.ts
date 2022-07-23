@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { IStationPrice } from '../shared/interfaces/station-price.interface';
+import { UpdatePriceService } from '../shared/services/update-price.service';
 import { FirebaseService } from './service/firebase.service';
 
 @Component({
@@ -8,16 +11,20 @@ import { FirebaseService } from './service/firebase.service';
   templateUrl: './station.component.html',
   styleUrls: ['./station.component.scss'],
 })
-export class StationComponent implements OnInit {
+export class StationComponent implements OnInit, OnDestroy {
   public stationForm!: FormGroup;
+  subscription!: Subscription;
+  @ViewChild('form') ngForm!: NgForm;
 
   constructor(
+    private updatePriceService: UpdatePriceService,
     private firebaseService: FirebaseService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.initSearchForm();
+    this.autoPopulateForm();
   }
 
   initSearchForm(): void {
@@ -26,6 +33,14 @@ export class StationComponent implements OnInit {
       petrol: new FormControl('', [Validators.required]),
       diesel: new FormControl('', [Validators.required]),
     });
+  }
+
+  autoPopulateForm() {
+    this.subscription = this.updatePriceService.updatePrice$.subscribe(
+      (data: IStationPrice) => {
+        this.stationForm.setValue(data);
+      }
+    );
   }
 
   getErrorMessage() {
@@ -48,11 +63,15 @@ export class StationComponent implements OnInit {
   }
 
   onCancel() {
-    this.onClear();
     this.router.navigate(['/home']);
   }
 
   onClear() {
     this.stationForm.reset();
+    this.ngForm.resetForm();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
