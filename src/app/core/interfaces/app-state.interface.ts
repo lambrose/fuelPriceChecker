@@ -1,5 +1,5 @@
-import { IHomeState } from '../../home/store/home-state.interface';
+import { ISearchState } from './search-state.interface';
 
 export interface IAppState {
-  home: IHomeState;
+  core: ISearchState;
 }

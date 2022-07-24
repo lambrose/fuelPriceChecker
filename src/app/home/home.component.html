@@ -1,7 +1,6 @@
 <div [ngClass]="dataSource ? 'container' : 'container_map'">
   <app-station-list
     *ngIf="dataSource"
-    [location]="location"
     [dataSource]="dataSource"
     [columnData]="columns"
   ></app-station-list>

@@ -6,10 +6,17 @@ import { StationListComponent } from './components/station-list/station-list.com
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { CoreModule } from '../core/core.module';
 
 @NgModule({
   declarations: [HomeComponent, MapComponent, StationListComponent],
-  imports: [CommonModule, HomeRoutingModule, SharedModule, GoogleMapsModule],
+  imports: [
+    CommonModule,
+    HomeRoutingModule,
+    SharedModule,
+    GoogleMapsModule,
+    CoreModule,
+  ],
   exports: [],
   providers: [],
 })

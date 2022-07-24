@@ -13,14 +13,6 @@ export class FirebaseService {
 
   constructor(private afs: AngularFirestore) {}
 
-  // constructor(private afs: AngularFirestore) {
-  //   this.stationRef = afs.collection(this.afsPath);
-  // }
-
-  isExist(location: string): any {
-    return this.afs.collection(location).get();
-  }
-
   create(location: string, station: IStationPrice): any {
     return this.afs.collection(location).add(station);
   }
@@ -29,8 +21,9 @@ export class FirebaseService {
     return this.afs.collection(location).snapshotChanges();
   }
 
-  update(id: string, data: any): Promise<void> {
-    return this.stationRef.doc(id).update(data);
+  update(location: string, id: string, station: IStationPrice): Promise<void> {
+    return this.afs.collection(location).doc(id).set(station);
+    // return this.afs.collection(location).doc(id).update(data);
   }
 
   // delete(id: string): Promise<void> {

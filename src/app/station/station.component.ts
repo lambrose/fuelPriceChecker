@@ -3,11 +3,12 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { IUpdatedStation } from '../core/interfaces/search-state.interface';
 import { ModalDialogComponent } from '../shared/component/modal-dialog/modal-dialog.component';
-import { IStation } from '../shared/interfaces/station-price.interface';
+import { IStationPrice } from '../shared/interfaces/station-price.interface';
 import { FirebaseService } from '../shared/services/firebase.service';
 import { UpdatePriceService } from '../shared/services/update-price.service';
-// import { map } from 'rxjs/operators';
+import { StationService } from './services/station.service';
 
 @Component({
   selector: 'app-station',
@@ -18,11 +19,13 @@ export class StationComponent implements OnInit, OnDestroy {
   public stationForm!: FormGroup;
   subscription!: Subscription;
   @ViewChild('form') ngForm!: NgForm;
-  location!: string;
+  location: string = 'stations';
+  private stations = new Map<string, IUpdatedStation>();
 
   constructor(
     private updatePriceService: UpdatePriceService,
     private firebaseService: FirebaseService,
+    private stationService: StationService,
     private router: Router,
     private dialog: MatDialog
   ) {}
@@ -30,6 +33,7 @@ export class StationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initSearchForm();
     this.autoPopulateForm();
+    this.getLocation();
   }
 
   initSearchForm(): void {
@@ -42,11 +46,17 @@ export class StationComponent implements OnInit, OnDestroy {
 
   autoPopulateForm() {
     this.subscription = this.updatePriceService.updatePrice$.subscribe(
-      (data: IStation) => {
-        this.location = data.location;
-        this.stationForm.setValue(data.station);
+      (data: IStationPrice) => {
+        this.stationForm.setValue(data);
       }
     );
+  }
+
+  getLocation() {
+    this.stationService.getLocation$.subscribe((data: string) => {
+      if (data) this.location = data;
+    });
+    this.stations = this.stationService.getStations();
   }
 
   getErrorMessage() {
@@ -60,18 +70,38 @@ export class StationComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.firebaseService
-      .create(this.location, this.stationForm.value)
-      .then(() => {
-        console.log(this.location);
-        this.dialog.open(ModalDialogComponent, {
-          data: {
-            title: 'Successful Submission',
-            content: 'Thank you for updating the fuel price.',
-          },
-        });
-      });
+    const value = this.stationForm.value;
+    const res = this.stations.get(value.station);
+    if (!res) this.onCreate(value);
+    else this.onUpdate(res);
+
     this.onClear();
+  }
+
+  onCreate(value: IStationPrice) {
+    this.firebaseService
+      .create(this.location, value)
+      .then(() => this.successfulSubmission());
+  }
+
+  onUpdate(res: IUpdatedStation) {
+    const data = {
+      station: res.station,
+      petrol: res.petrol,
+      diesel: res.diesel,
+    };
+    this.firebaseService
+      .update(this.location, res.id, data)
+      .then(() => this.successfulSubmission());
+  }
+
+  successfulSubmission() {
+    this.dialog.open(ModalDialogComponent, {
+      data: {
+        title: 'Successful Submission',
+        content: 'Thank you for updating the fuel price.',
+      },
+    });
   }
 
   onCancel() {
@@ -79,20 +109,6 @@ export class StationComponent implements OnInit, OnDestroy {
   }
 
   onClear() {
-    // this.firebaseService
-    //   .getAll(this.location)
-    //   .pipe(
-    //     map((changes) =>
-    //       changes.map((c) => ({
-    //         id: c.payload.doc.id,
-    //         ...c.payload.doc.data(),
-    //       }))
-    //     )
-    //   )
-    //   .subscribe((data) => {
-    //     console.log(data);
-    //   });
-
     this.stationForm.reset();
     this.ngForm.resetForm();
   }

@@ -1,23 +1,46 @@
 import { Injectable } from '@angular/core';
-// import { Store } from '@ngrx/store';
-// import { ISearchResponse } from 'src/app/shared/interfaces/search-response.interface';
-// import { IAppState } from '../interfaces/app-state.interface';
-// import { setSearchedLocation } from 'src/app/home/store/home.action';
+import { Store } from '@ngrx/store';
+import { map } from 'rxjs/operators';
+import { FirebaseService } from 'src/app/shared/services/firebase.service';
+import { IAppState } from '../interfaces/app-state.interface';
+import { IUpdatedStation } from '../interfaces/search-state.interface';
+import { resetAll, setLocation, setStations } from '../state/core.action';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SearchedLocationService {
-  constructor() {}
-  //   constructor(private _store: Store<IAppState>) {}
+export class SearchLocationService {
+  constructor(
+    private firebaseService: FirebaseService,
+    private _store: Store<IAppState>
+  ) {}
 
-  //   setLocation(searchedLocation: ISearchResponse): void {
-  //     this._store.dispatch(setSearchedLocation({ searchedLocation }));
-  //   }
+  getStations(location: string) {
+    this.firebaseService
+      .getAll(location)
+      .pipe(
+        map((updatedStations) =>
+          updatedStations.map((uStation) => ({
+            id: uStation.payload.doc.id,
+            ...uStation.payload.doc.data(),
+          }))
+        )
+      )
+      .subscribe((stations: IUpdatedStation[]) => {
+        this.setSearchedLocation(location);
+        this.setUpdatedStations(stations);
+      });
+  }
+
+  resetUserSearch() {
+    this._store.dispatch(resetAll());
+  }
+
+  setSearchedLocation(location: string) {
+    this._store.dispatch(setLocation({ location }));
+  }
+
+  setUpdatedStations(stations: IUpdatedStation[]) {
+    this._store.dispatch(setStations({ stations }));
+  }
 }
-
-// Requires further thought
-
-// getSearchedLocation$: Observable<ISearchResponse> =
-//     this._store.select(getSearchedLocation);
-//   constructor(private _store: Store<IAppState>) {}

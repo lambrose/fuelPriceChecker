@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { IStationPrice } from '../../shared/interfaces/station-price.interface';
+import { Observable, Subject } from 'rxjs';
+import {
+  IPrice,
+  IStationPrice,
+} from '../../shared/interfaces/station-price.interface';
+import { tap } from 'rxjs/operators';
+import { IAppState } from 'src/app/core/interfaces/app-state.interface';
+import { Store } from '@ngrx/store';
+import { getStations } from 'src/app/core/state/core.selector';
+import { IUpdatedStation } from 'src/app/core/interfaces/search-state.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +20,10 @@ export class NearbySearchService {
   public changedNearbyStations$ = this._changedNearbyStations.asObservable();
   private _changedMarkers = new Subject<any[]>();
   public changedMarkers$ = this._changedMarkers.asObservable();
+  private stationsMap = new Map<string, IPrice>();
+  getStations$: Observable<IUpdatedStation[]> = this._store.select(getStations);
 
-  constructor() {}
+  constructor(private _store: Store<IAppState>) {}
 
   findStations(coords: google.maps.LatLngLiteral, map: google.maps.Map): void {
     const searchedPlace = new google.maps.LatLng(coords.lat, coords.lng);
@@ -47,20 +57,31 @@ export class NearbySearchService {
 
       this.markers = [];
       this.stations = [];
+      this.stationsMap.clear();
       // this.map.setCenter(results[0].geometry!.location!);
     }
   };
+
+  getStations(): void {
+    this.getStations$
+      .pipe(
+        tap((stations) =>
+          stations.map((station) => {
+            this.stationsMap.set(station.station, {
+              petrol: station.petrol,
+              diesel: station.diesel,
+            });
+          })
+        )
+      )
+      .subscribe();
+  }
 
   addMarker(place: google.maps.places.PlaceResult) {
     if (!place.geometry || !place.geometry.location) return;
 
     this.markers.push({
       position: place.geometry.location,
-      // label: {
-      //   color: 'red',
-      //   text: place.name,
-      // },
-      // title: 'Marker title ' + (this.markers.length + 1),
       info: place.name,
       options: {
         animation: google.maps.Animation.BOUNCE,
@@ -69,10 +90,22 @@ export class NearbySearchService {
   }
 
   addStation(place: google.maps.places.PlaceResult) {
+    if (!place.name) return;
+
+    let petrolValue = 0;
+    let dieselValue = 0;
+
+    const value = this.stationsMap.get(place.name);
+
+    if (this.stationsMap.size > 0 && value) {
+      petrolValue = value.petrol;
+      dieselValue = value.diesel;
+    }
+
     this.stations.push({
       station: place.name,
-      petrol: 0,
-      diesel: 0,
+      petrol: petrolValue,
+      diesel: dieselValue,
     });
   }
 }

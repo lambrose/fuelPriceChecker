@@ -19,7 +19,6 @@ import { UpdatePriceService } from '../../../shared/services/update-price.servic
 })
 export class StationListComponent implements AfterViewInit, OnChanges {
   @ViewChild(MatSort) sort!: MatSort;
-  @Input() location!: string;
   @Input() dataSource!: MatTableDataSource<IStationPrice>;
   @Input() columnData!: string[];
 
@@ -46,10 +45,7 @@ export class StationListComponent implements AfterViewInit, OnChanges {
   }
 
   updatePrices(rowData: IStationPrice) {
-    this.updatePriceService.setUpdatePrice({
-      location: this.location,
-      station: rowData,
-    });
+    this.updatePriceService.setUpdatePrice(rowData);
     this.router.navigate(['/station']);
   }
 }

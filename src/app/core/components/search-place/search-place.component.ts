@@ -9,6 +9,7 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ISearchResponse } from 'src/app/shared/interfaces/search-response.interface';
 import { LocationService } from 'src/app/shared/services/location.service';
+import { SearchLocationService } from '../../services/searched-location.service';
 
 @Component({
   selector: 'app-search-place',
@@ -22,7 +23,8 @@ export class SearchPlaceComponent implements OnInit, AfterViewInit {
 
   constructor(
     private ngZone: NgZone,
-    private locationService: LocationService
+    private locationService: LocationService,
+    private searchLocationService: SearchLocationService
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +52,7 @@ export class SearchPlaceComponent implements OnInit, AfterViewInit {
             lng: place.geometry.location?.lng(),
           },
         };
+        this.searchLocationService.getStations(place.name);
         this.locationService.setLocation(location);
       });
     });
@@ -63,5 +66,7 @@ export class SearchPlaceComponent implements OnInit, AfterViewInit {
 
   onClear(): void {
     this.searchForm.reset();
+    this.searchLocationService.resetUserSearch();
+    // perhaps reset map state also
   }
 }
