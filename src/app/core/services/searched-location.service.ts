@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { FirebaseService } from 'src/app/shared/services/firebase.service';
 import { IAppState } from '../interfaces/app-state.interface';
 import { IUpdatedStation } from '../interfaces/search-state.interface';
@@ -19,6 +19,7 @@ export class SearchLocationService {
     this.firebaseService
       .getAll(location)
       .pipe(
+        take(1),
         map((updatedStations) =>
           updatedStations.map((uStation) => ({
             id: uStation.payload.doc.id,

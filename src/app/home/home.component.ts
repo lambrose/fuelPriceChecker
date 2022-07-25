@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   dataSource!: MatTableDataSource<IStationPrice>;
   dataSubscription!: Subscription;
   locSubscription!: Subscription;
+  dbSubscription!: Subscription;
 
   constructor(
     private locationService: LocationService,
@@ -29,10 +30,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSubscription =
       this.nearbySearchService.changedNearbyStations$.subscribe(
         (data: IStationPrice[]) => {
-          // console.log(data);
           this.dataSource = new MatTableDataSource(data);
         }
       );
+    this.dbSubscription = this.nearbySearchService.getStations().subscribe();
   }
 
   ngAfterViewInit(): void {
@@ -43,32 +44,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
             lat: response.coordinate.lat,
             lng: response.coordinate.lng,
           };
-          this.nearbySearchService.getStations();
           this.nearbySearchService.findStations(this.coords, this.map);
           this.markers = this.nearbySearchService.changedMarkers$;
         }
       );
   }
 
-  // ngAfterViewInit(): void {
-  //   this.locationSub = this.locationService.changedSearchLocation$
-  //     .pipe(
-  //       switchMap((response: ISearchResponse) => {
-  //         this.coords = {
-  //           lat: response.coordinate.lat,
-  //           lng: response.coordinate.lng,
-  //         };
-  //         return this.nearbySearchService.getStations();
-  //       })
-  //     )
-  //     .subscribe(() => {
-  //       this.nearbySearchService.findStations(this.coords, this.map);
-  //       this.markers = this.nearbySearchService.changedMarkers$;
-  //     });
-  // }
-
   ngOnDestroy(): void {
     this.dataSubscription.unsubscribe();
     this.locSubscription.unsubscribe();
+    this.dbSubscription.unsubscribe();
   }
 }

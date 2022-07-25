@@ -53,7 +53,9 @@ export class SearchPlaceComponent implements OnInit, AfterViewInit {
           },
         };
         this.searchLocationService.getStations(place.name);
-        this.locationService.setLocation(location);
+        setTimeout(() => {
+          this.locationService.setLocation(location);
+        }, 500);
       });
     });
   }

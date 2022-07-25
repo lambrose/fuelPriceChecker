@@ -62,19 +62,17 @@ export class NearbySearchService {
     }
   };
 
-  getStations(): void {
-    this.getStations$
-      .pipe(
-        tap((stations) =>
-          stations.map((station) => {
-            this.stationsMap.set(station.station, {
-              petrol: station.petrol,
-              diesel: station.diesel,
-            });
-          })
-        )
+  getStations(): any {
+    return this.getStations$.pipe(
+      tap((stations) =>
+        stations.map((station) => {
+          this.stationsMap.set(station.station, {
+            petrol: station.petrol,
+            diesel: station.diesel,
+          });
+        })
       )
-      .subscribe();
+    );
   }
 
   addMarker(place: google.maps.places.PlaceResult) {
