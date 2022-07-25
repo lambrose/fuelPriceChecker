@@ -73,7 +73,7 @@ export class StationComponent implements OnInit, OnDestroy {
     const value = this.stationForm.value;
     const res = this.stations.get(value.station);
     if (!res) this.onCreate(value);
-    else this.onUpdate(res);
+    else this.onUpdate(res.id, value);
 
     this.onClear();
   }
@@ -84,14 +84,9 @@ export class StationComponent implements OnInit, OnDestroy {
       .then(() => this.successfulSubmission());
   }
 
-  onUpdate(res: IUpdatedStation) {
-    const data = {
-      station: res.station,
-      petrol: res.petrol,
-      diesel: res.diesel,
-    };
+  onUpdate(id: string, value: IStationPrice) {
     this.firebaseService
-      .update(this.location, res.id, data)
+      .update(this.location, id, value)
       .then(() => this.successfulSubmission());
   }
 

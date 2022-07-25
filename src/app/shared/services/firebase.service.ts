@@ -9,7 +9,8 @@ import { IStationPrice } from '../interfaces/station-price.interface';
 @Injectable({ providedIn: 'root' })
 export class FirebaseService {
   private afsPath = '/station';
-  stationRef!: AngularFirestoreCollection<IStationPrice>;
+  // stationRef!: AngularFirestoreCollection<IStationPrice>;
+  // Needs more work
 
   constructor(private afs: AngularFirestore) {}
 
