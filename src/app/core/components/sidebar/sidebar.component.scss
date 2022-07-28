@@ -1,9 +1,11 @@
+@import 'variables';
+
 mat-icon {
-    color: white;
+    color: $white;
 }
 
 .menu-head {
-    color: #466be0;
+    color: $blue;
     text-transform: uppercase;
     font-weight: 900;
     margin: 20px 0px 20px 40px;
@@ -17,11 +19,11 @@ mat-icon {
         position: relative;
         display: flex;
         padding-left: 40px;
-        margin-bottom: 10px;
+        margin-bottom: $pixel_10;
     }
     .menu-button span {
-        margin-left: 15px;
-        color: white;
+        margin-left: $pixel_15;
+        color: $white;
     }
 
     .menu-button:hover {

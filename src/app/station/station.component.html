@@ -1,75 +1,72 @@
 <div class="container">
-  <div class="msg-section">
-    <h1>Update Fuel Station Prices</h1>
-    <ul>
-      <li>Contribute</li>
-      <li>Help</li>
-      <li>Save money</li>
-    </ul>
-  </div>
+  <mat-card class="form-card">
+    <mat-card-header>
+      <mat-card-title>Update Fuel Station Prices</mat-card-title>
+      <mat-card-subtitle>Thank you</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="form-section">
+      <form (ngSubmit)="onSubmit()" [formGroup]="stationForm" #form="ngForm">
+        <div class="station-form-field">
+          <mat-form-field appearance="outline" floatLabel="always">
+            <mat-label>Station Name</mat-label>
+            <input
+              matInput
+              type="text"
+              placeholder="AppleGreen"
+              formControlName="station"
+            />
+            <mat-error>{{ getErrorMessage() }}</mat-error>
+          </mat-form-field>
+        </div>
 
-  <div class="form-section">
-    <form (ngSubmit)="onSubmit()" [formGroup]="stationForm" #form="ngForm">
-      <div class="station-form-field">
-        <mat-form-field appearance="outline" floatLabel="always">
-          <mat-label>Station Name</mat-label>
-          <input
-            matInput
-            type="text"
-            placeholder="AppleGreen"
-            formControlName="station"
-          />
-          <mat-error>{{ getErrorMessage() }}</mat-error>
-        </mat-form-field>
-      </div>
+        <div class="station-form-field">
+          <mat-form-field appearance="outline" floatLabel="always">
+            <mat-label>Petrol</mat-label>
+            <input
+              matInput
+              type="number"
+              class="example-right-align"
+              placeholder="0"
+              formControlName="petrol"
+            />
+            <span matPrefix>$&nbsp;</span>
+          </mat-form-field>
+        </div>
 
-      <div class="station-form-field">
-        <mat-form-field appearance="outline" floatLabel="always">
-          <mat-label>Petrol</mat-label>
-          <input
-            matInput
-            type="number"
-            class="example-right-align"
-            placeholder="0"
-            formControlName="petrol"
-          />
-          <span matPrefix>$&nbsp;</span>
-        </mat-form-field>
-      </div>
+        <div class="station-form-field">
+          <mat-form-field appearance="outline" floatLabel="always">
+            <mat-label>Diesel</mat-label>
+            <input
+              matInput
+              type="number"
+              class="example-right-align"
+              placeholder="0"
+              formControlName="diesel"
+            />
+            <span matPrefix>$&nbsp;</span>
+          </mat-form-field>
+        </div>
 
-      <div class="station-form-field">
-        <mat-form-field appearance="outline" floatLabel="always">
-          <mat-label>Diesel</mat-label>
-          <input
-            matInput
-            type="number"
-            class="example-right-align"
-            placeholder="0"
-            formControlName="diesel"
-          />
-          <span matPrefix>$&nbsp;</span>
-        </mat-form-field>
-      </div>
-
-      <div class="station-form-field">
-        <button
-          mat-raised-button
-          type="submit"
-          color="primary"
-          class="submit-btn"
-          [disabled]="!stationForm.valid"
-        >
-          Save
-        </button>
-        <button
-          mat-raised-button
-          type="button"
-          color="warn"
-          (click)="stationForm.valid ? onClear() : onCancel()"
-        >
-          {{ stationForm.valid ? "Clear" : "Cancel" }}
-        </button>
-      </div>
-    </form>
-  </div>
+        <div class="station-form-field">
+          <button
+            mat-raised-button
+            type="submit"
+            color="primary"
+            class="submit-btn"
+            [disabled]="!stationForm.valid"
+          >
+            Save
+          </button>
+          <button
+            mat-raised-button
+            type="button"
+            color="warn"
+            (click)="stationForm.valid ? onClear() : onCancel()"
+          >
+            {{ stationForm.valid ? "Clear" : "Cancel" }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
 </div>

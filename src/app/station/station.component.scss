@@ -1,12 +1,18 @@
+@import 'variables';
+
 .container {
-    padding: 10px;
+    padding: $pixel_10;
 }
 
+.form-card {
+    max-width: 400px;
+  }
+
 .msg-section {
-    margin-bottom: 20px;
+    margin-bottom: $pixel_20;
 }
 
 .submit-btn {
-    margin-right: 10px;
+    margin-right: $pixel_10;
 }
 

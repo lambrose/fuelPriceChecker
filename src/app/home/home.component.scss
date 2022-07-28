@@ -1,9 +1,10 @@
-.container {
-    padding: 10px;
-    display: grid;
-    grid-template-columns: 1fr 3fr;
+@import 'variables';
+
+.container-map {
+    padding: $pixel_10;
 }
 
-.container_map {
-    padding: 10px;
+.container {
+    display: flex;
+    justify-content: space-evenly; 
 }
