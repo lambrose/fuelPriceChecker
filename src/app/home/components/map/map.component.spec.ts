@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MapComponent } from './map.component';
@@ -8,18 +9,19 @@ describe('MapComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MapComponent ]
-    })
-    .compileComponents();
-  });
+      declarations: [MapComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(MapComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should get user location', () => {
+    spyOn(navigator.geolocation, 'getCurrentPosition').and.callFake(() => {
+      component.coords = { lat: 52, lng: 13 };
+    });
+    fixture.detectChanges();
+    expect(component.coords).toEqual({ lat: 52, lng: 13 });
   });
 });
