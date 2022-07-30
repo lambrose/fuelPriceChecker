@@ -1,0 +1,37 @@
+<div class="container">
+  <mat-card class="map-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>Google Map</mat-card-title>
+      <mat-card-subtitle>Station results</mat-card-subtitle>
+    </mat-card-header>
+    <google-map
+      class="map"
+      #googleMap
+      height="500px"
+      width="100%"
+      [zoom]="zoom"
+      [center]="coords"
+      [options]="options"
+    >
+      <div id="map"></div>
+      <map-marker
+        #markerElem="mapMarker"
+        *ngFor="let marker of markers | async"
+        [position]="marker.position"
+        [label]="marker.label"
+        [title]="marker.title"
+        [options]="marker.options"
+        (mapClick)="openInfo(markerElem, marker.info)"
+      >
+      </map-marker>
+      <map-info-window>{{ infoContent }}</map-info-window>
+    </google-map>
+    <mat-card-content>
+      <p>
+        This is an interactive map. Click on the markers for further details.
+        ... ... ... ...
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>

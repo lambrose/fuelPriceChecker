@@ -1,4 +1,6 @@
-# FuelPriceChecker
+# FuelPriceChecker Prototype
+
+Developed fuel price comparison prototype app that allows people to update and view fuel prices in realtime.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.17.
 

@@ -1,0 +1,32 @@
+@import 'variables';
+
+.container {
+    font-family: 'Lato', sans-serif;
+    color: $grey;
+    margin: 0;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#main{
+    font-size: $pixel_100;
+    color: $red;
+    padding-bottom: $pixel_25;
+}
+
+
+#content{
+    font-size: $pixel_20;
+    text-align: center;
+}
+
+#footer{
+    font-size: $pixel_20;
+    text-align: center;
+}
+
+p {
+    padding: $pixel_5;
+}

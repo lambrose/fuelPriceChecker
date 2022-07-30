@@ -1,0 +1,34 @@
+@import 'variables';
+
+.container {
+    font-size: $pixel_20;
+}
+
+.search-form {
+    width: 300px;
+    justify-content: center;
+}
+
+.search-input {
+    align-self: center;
+    margin-left: $pixel_10;
+    font-size: $pixel_20;
+    font-weight: 400;
+    color: $black;
+  }
+
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 2px;
+   }
+
+:host ::ng-deep .mat-form-field-prefix .mat-icon {
+    font-size: $percent_125;
+}
+
+:host ::ng-deep .mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-suffix .mat-icon-button .mat-icon {
+    font-size: $percent_100;
+}
+
+:host ::ng-deep  .mat-form-field-wrapper {
+    padding-bottom: 0em;
+}

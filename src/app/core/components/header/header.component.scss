@@ -1,0 +1,16 @@
+@import 'variables';
+
+mat-toolbar {
+    mat-icon {
+        margin: 0px 15px;
+        color: $aqua;
+        cursor: pointer;
+    }
+
+    .search-input {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+    }
+}

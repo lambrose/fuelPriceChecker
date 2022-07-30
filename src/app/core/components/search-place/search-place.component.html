@@ -1,0 +1,29 @@
+<div class="container">
+  <mat-form-field
+    class="search-form"
+    appearance="outline"
+    [formGroup]="searchForm"
+  >
+    <mat-icon matPrefix>search</mat-icon>
+    <!-- <mat-label>Search Location</mat-label> -->
+    <input
+      matInput
+      type="text"
+      class="search-input"
+      (keydown.enter)="$event.preventDefault()"
+      placeholder="Search Location"
+      formControlName="search"
+      #searchInput
+    />
+
+    <button
+      *ngIf="searchInput.value"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="onClear()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>

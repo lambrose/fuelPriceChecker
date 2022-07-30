@@ -1,0 +1,6 @@
+<mat-toolbar>
+  <mat-icon (click)="toggleSidebar()">menu</mat-icon>
+  <div class="search-input">
+    <app-search-place *ngIf="isHomeScreen()"></app-search-place>
+  </div>
+</mat-toolbar>

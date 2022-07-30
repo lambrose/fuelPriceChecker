@@ -1,0 +1,18 @@
+@import 'variables';
+
+mat-sidenav-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+mat-sidenav {
+    background-color: $navy;
+    width: 230px;
+    // height: 100%;
+}
+
+mat-sidenav-content {
+    flex: 1;
+}

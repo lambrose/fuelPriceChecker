@@ -1,0 +1,8 @@
+<div [ngClass]="dataSource ? 'container' : 'container-map'">
+  <app-station-list
+    *ngIf="dataSource"
+    [dataSource]="dataSource"
+    [columnData]="columns"
+  ></app-station-list>
+  <app-map [map]="map" [coords]="coords" [markers]="markers"></app-map>
+</div>

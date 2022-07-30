@@ -1,0 +1,36 @@
+@import 'variables';
+
+mat-icon {
+    color: $white;
+}
+
+.menu-head {
+    color: $blue;
+    text-transform: uppercase;
+    font-weight: 900;
+    margin: 20px 0px 20px 40px;
+}
+
+.menu-item {
+    margin: 0 10px;
+    .menu-button {
+        display: block;
+        width: 100%;
+        position: relative;
+        display: flex;
+        padding-left: 40px;
+        margin-bottom: $pixel_10;
+    }
+    .menu-button span {
+        margin-left: $pixel_15;
+        color: $white;
+    }
+
+    .menu-button:hover {
+        background: #2c3344;
+    }
+
+    .menu-button:focus {
+        background: #2c3344;
+    }
+}

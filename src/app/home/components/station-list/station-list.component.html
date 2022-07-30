@@ -1,0 +1,55 @@
+<table
+  mat-table
+  [dataSource]="dataSource"
+  matSort
+  (matSortChange)="announceSortChange($event)"
+  class="mat-elevation-z8"
+>
+  <ng-container matColumnDef="station">
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header
+      sortActionDescription="Sort by station"
+    >
+      Station
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element.station }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="petrol">
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header
+      sortActionDescription="Sort by petrol"
+    >
+      Petrol
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element.petrol }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="diesel">
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header
+      sortActionDescription="Sort by diesel"
+    >
+      Diesel
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element.diesel }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="star">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <mat-icon class="update-price-btn" (click)="updatePrices(element)"
+        >more_vert</mat-icon
+      >
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnData"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnData"></tr>
+</table>
